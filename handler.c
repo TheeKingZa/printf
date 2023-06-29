@@ -15,41 +15,41 @@
  */
 int handle_print(const char *fmt, int *i, va_list list, char buffer[], int flags, int width, int precision, int size)
 {
-    int j, count = 0;
-    fmt_t format_specifiers[] = {
-        {'d', print_int},
-        {'i', print_int},
-        {'b', print_binary},
-        {'u', print_unsigned},
-        {'o', print_octal},
-        {'x', print_hexadecimal},
-        {'X', print_hexa_upper},
-        {'S', print_non_printable},
-        {'p', print_pointer},
-        {'r', print_reverse},
-        {'R', print_rot13string},
-        {'\0', NULL}
-    };
+int j, count = 0;
 
-    for (j = 0; format_specifiers[j].fmt != '\0'; j++)
-    {
-        if (format_specifiers[j].fmt == fmt[*i])
-        {
-            count = format_specifiers[j].fn(list, buffer, flags, width, precision, size);
-            break;
-        }
-    }
+fmt_t format_specifiers[] = {
+	{'d', print_int},
+	{'i', print_int},
+	{'b', print_binary},
+	{'u', print_unsigned},
+	{'o', print_octal},
+	{'x', print_hexadecimal},
+	{'X', print_hexa_upper},
+	{'S', print_non_printable},
+	{'p', print_pointer},
+	{'r', print_reverse},
+	{'R', print_rot13string},
+	{'\0', NULL}
+};
 
-    if (format_specifiers[j].fmt == '\0')
-    {
-        buffer[0] = '%';
-        buffer[1] = fmt[*i];
-        count = 2;
-        write(1, buffer, count);
-    }
+	for (j = 0; format_specifiers[j].fmt != '\0'; j++)
+	{
+		if (format_specifiers[j].fmt == fmt[*i])
+	{
 
-    (*i)++;
+	count = format_specifiers[j].fn(list, buffer, flags, width, precision, size);
+	break;
 
-    return (count);
+	}
+	}
+	if (format_specifiers[j].fmt == '\0')
+{
+	buffer[0] = '%';
+	buffer[1] = fmt[*i];
+	count = 2;
+	write(1, buffer, count);
 }
 
+	(*i)++;
+	return (count);
+}
