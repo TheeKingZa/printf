@@ -1,6 +1,8 @@
 #include <stdarg.h>
-#include <unistd.h>
 #include "main.h"
+#include <stdio.h>
+
+#define BUFFER_SIZE 1024
 
 /**
  * _printf - Custom printf function
@@ -8,72 +10,40 @@
  *
  * Return: The number of characters printed (excluding the null byte).
  */
-
 int _printf(const char *format, ...)
 {
 va_list args;
 int count = 0;
+char buffer[BUFFER_SIZE];
+char *buffer_ptr = buffer;
 
 va_start(args, format);
 
-	while (*format)
+while (*format)
 {
-	if (*format == '%')
-	{
-	format++;
-	if (*format == 'd' || *format == 'i')
-	{
-/* Handle integer conversion specifier */
-	int num = va_arg(args, int);
+if (*format == '%')
+{
+format++;
 
-	count += print_integer(num);
-	}
-	else
-	{
-/* Handle unsupported conversion specifier */
-	_putchar('%');
-	_putchar(*format);
-	count += 2;
-	}
-	}
-	else
-	{
-/* Handle regular characters */
-	_putchar(*format);
-	count++;
-	}
-	format++;
+/* Handle conversion specifier */
+count += handler(format, args, buffer_ptr, &count);
 }
+else
+{
+/* Regular character, copy to buffer */
+*buffer_ptr = *format;
+buffer_ptr++;
+count++;
+}
+
+format++;
+}
+
+/* Write the buffer to the standard output */
+/* write_buffer(buffer, buffer_ptr);*/
+
 va_end(args);
+
 return (count);
 }
 
-/**
- * print_integer - Prints an integer to the standard output
- * @num: The integer to be printed
- *
- * Return: The number of characters printed.
- */
-
-int print_integer(int num)
-{
-int count = 0;
-
-if (num < 0)
-	{
-	/* Handle negative numbers */
-	_putchar('-');
-	count++;
-	num = -num;
-	}
-
-if (num / 10)
-	{
-	count += print_integer(num / 10);
-	}
-	/* Print the digits */
-	_putchar('0' + num % 10);
-	count++;
-
-	return (count);
-}
