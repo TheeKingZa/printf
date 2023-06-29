@@ -13,7 +13,8 @@
  *
  * Return: Number of characters printed
  */
-int print_binary(va_list types, char buffer[], int flags, int width, int precision, int size)
+int print_binary(va_list types, char buffer[], int flags,
+		int width, int precision, int size)
 {
 	unsigned int num = va_arg(types, unsigned int);
 	int count = 0;
@@ -34,18 +35,14 @@ int print_binary(va_list types, char buffer[], int flags, int width, int precisi
 }
 
 /* Allocate enough space in the buffer for the binary representation */
-
-	
 	for (int i = binaryDigits - 1; i >= 0; i--)
 	{
-
 	buffer[bufferIndex++] = ((num >> i) & 1) + '0';
-	
 	}
-
 	buffer[bufferIndex] = '\0';
 /* Null-terminate the buffer */
 	count = snprintf(buffer, BUFFER_SIZE, "%.0s%s", buffer, buffer);
 
-    return (count);
+
+return (count);
 }

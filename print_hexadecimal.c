@@ -13,21 +13,21 @@
  *
  * Return: Number of characters printed
  */
-int print_hexadecimal(va_list types, char buffer[], int flags, int width, int precision, int size)
+int print_hexadecimal(va_list types, char buffer[], int flags, int width,
+		int precision, int size)
 {
-    unsigned int num = va_arg(types, unsigned int);
-    int count = 0;
+	unsigned int num = va_arg(types, unsigned int);
+	int count = 0;
 
-    /* Handle the 0 flag character */
-    if (flags & FLAG_ZERO)
-        count += snprintf(buffer + count, BUFFER_SIZE - count, "%0*.*x", width, precision, num);
-    else if (flags & FLAG_MINUS)
-        count += snprintf(buffer + count, BUFFER_SIZE - count, "%-*.*x", width, precision, num);
-    else
-        count += snprintf(buffer + count, BUFFER_SIZE - count, "%*.*x", width, precision, num);
+/* Handle the 0 flag character */
 
-    write_buffer(buffer, count);
-
-    return (count);
+	if (flags & FLAG_ZERO)
+	count += snprintf(buffer + count, BUFFER_SIZE - count, "%0*.*x", width, precision, num);
+	else if (flags & FLAG_MINUS)
+	count += snprintf(buffer + count, BUFFER_SIZE - count, "%-*.*x", width, precision, num);
+	else
+	count += snprintf(buffer + count, BUFFER_SIZE - count, "%*.*x", width, precision, num);
+	write_buffer(buffer, count);
+return (count);
 }
 
