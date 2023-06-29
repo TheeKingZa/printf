@@ -28,21 +28,21 @@ int print_string(va_list types, char buffer[], int flags, int width,
 
 	while (str[i] != '\0')
 	{
-		if (str[i] < ' ' || str[i] >= 127)
-		{
-count += snprintf(buffer + count, BUFFER_SIZE - count, "\x%02X", (unsigned char)str[i]);
-		}
-		else
-		{
-		buffer[count++] = str[i];
-		}
-		if (count >= BUFFER_SIZE - 1)
-		{
+	if (str[i] < ' ' || str[i] >= 127)
+	{
+count += snprintf(buffer + count,BUFFER_SIZE - count,"\x%02X",(unsigned char)str[i]);
+	}
+	else
+	{
+	buffer[count++] = str[i];
+	}
+	if (count >= BUFFER_SIZE - 1)
+	{
 /* Buffer is full, write it to standard output */
-		write_buffer(buffer, count);
-		count = 0;
-		}
-		i++;
+	write_buffer(buffer, count);
+	count = 0;
+	}
+	i++;
 	}
 
 /* Write remaining characters in the buffer to standard output */
