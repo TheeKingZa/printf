@@ -15,7 +15,8 @@
  * Return: Number of characters printed for
  *		the current format specifier
  */
-int handle_print(const char *fmt, int *i, va_list list, char buffer[], int flags, int width, int precision, int size)
+int handle_print(const char *fmt, int *i, va_list list,
+		char buffer[], int flags, int width, int precision, int size)
 {
 int j, count = 0;
 
