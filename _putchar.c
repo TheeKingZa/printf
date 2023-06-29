@@ -1,19 +1,13 @@
 #include <unistd.h>
 
 /**
- * _putchar - Writes a character to the standard output
- * @c: The character to be written
+ * _putchar - writes the character c to stdout
+ * @c: The character to print
  *
- * This function takes a character @c as input and writes it to
- *		the standard output.
- * It uses the write system call to perform the write operation.
- *
- * Return: On success, it returns the number of bytes
- *		written (always 1).
- *		On error, it returns -1.
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
  */
 int _putchar(char c)
 {
-return (write(1, &c, 1));
+	return (write(1, &c, 1));
 }
-
