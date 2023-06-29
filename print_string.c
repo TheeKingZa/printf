@@ -34,7 +34,8 @@ else
 {
 buffer[count++] = str[i];
 }
-if (count >= BUFFER_SIZE - 1) {
+if (count >= BUFFER_SIZE - 1)
+{
 /* Buffer is full, write it to standard output */
 write_buffer(buffer, count);
 count = 0;
