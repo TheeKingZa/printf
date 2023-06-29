@@ -1,7 +1,8 @@
 #include "main.h"
 
 /**
- * handle_print - Handles the format specifier and calls the appropriate function
+ * handle_print - Handles the format specifier and calls
+ *			the appropriate function
  * @fmt: Format string
  * @i: Pointer to the current index of the format string
  * @list: Variable argument list
@@ -11,7 +12,8 @@
  * @precision: Precision for string and numeric conversions
  * @size: Length modifier size
  *
- * Return: Number of characters printed for the current format specifier
+ * Return: Number of characters printed for
+ *		the current format specifier
  */
 int handle_print(const char *fmt, int *i, va_list list, char buffer[], int flags, int width, int precision, int size)
 {
@@ -34,7 +36,7 @@ fmt_t format_specifiers[] = {
 
 	for (j = 0; format_specifiers[j].fmt != '\0'; j++)
 	{
-		if (format_specifiers[j].fmt == fmt[*i])
+	if (format_specifiers[j].fmt == fmt[*i])
 	{
 
 	count = format_specifiers[j].fn(list, buffer, flags, width, precision, size);
