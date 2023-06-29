@@ -3,7 +3,8 @@
 #include <stdarg.h>
 
 /**
- * print_string - Prints a string with special handling for non-printable characters
+ * print_string - Prints a string with special handling for
+ *		non-printable characters
  * @types: Variable argument list
  * @buffer: Buffer to store the formatted output
  * @flags: Flags for formatting options
@@ -13,7 +14,8 @@
  *
  * Return: Number of characters printed
  */
-int print_string(va_list types, char buffer[], int flags, int width, int precision, int size)
+int print_string(va_list types, char buffer[], int flags, int width,
+		int precision, int size)
 {
 	char *str = va_arg(types, char*);
 	int count = 0;
@@ -28,7 +30,7 @@ int print_string(va_list types, char buffer[], int flags, int width, int precisi
 	{
 		if (str[i] < ' ' || str[i] >= 127)
 		{
-		count += snprintf(buffer + count, BUFFER_SIZE - count, "\x%02X", (unsigned char)str[i]);
+count += snprintf(buffer + count, BUFFER_SIZE - count, "\x%02X", (unsigned char)str[i]);
 		}
 		else
 		{

@@ -11,7 +11,8 @@
  *
  * Return: The number of characters printed
  */
-int print_unsigned(va_list args, char buffer[], int flags, int width, int precision, int size)
+int print_unsigned(va_list args, char buffer[], int flags, int width,
+		int precision, int size)
 {
 	unsigned int num = va_arg(args, unsigned int);
 	char num_str[12]; /* Assuming unsigned int has at most 10 digits */
