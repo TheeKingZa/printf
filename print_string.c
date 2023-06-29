@@ -29,7 +29,8 @@ while (str[i] != '\0')
 {
 if (str[i] < ' ' || str[i] >= 127)
 {
-count += snprintf(buffer + count, BUFFER_SIZE - count, "\x%02X", (unsigned char)str[i]);
+count += snprintf(buffer + count, BUFFER_SIZE - count, "\x%02X",
+(unsigned char)str[i]);
 }
 else
 {
