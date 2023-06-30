@@ -2,6 +2,10 @@
 #define MAIN_H
 
 #include <stdarg.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <stddef.h>
+
 /* Include for va_list */
 
 
