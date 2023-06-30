@@ -26,7 +26,7 @@ int handle_integer(va_list args, char *buffer, int *count)
 int handle_unsigned_integer(va_list args, char *buffer, int *count)
 {
 	unsigned int num = va_arg(args, unsigned int);
-	
+
 	return (print_unsigned_integer(num, buffer + *count));
 }
 
