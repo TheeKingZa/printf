@@ -10,9 +10,9 @@
  */
 int handle_integer(va_list args, char *buffer, int *count)
 {
-	int num = va_arg(args, int);
+    int num = va_arg(args, int);
 
-	return (print_integer(num, buffer + *count));
+    return (print_integer(num, buffer + *count));
 }
 
 /**
@@ -25,12 +25,46 @@ int handle_integer(va_list args, char *buffer, int *count)
  */
 int handle_unsigned_integer(va_list args, char *buffer, int *count)
 {
-	unsigned int num = va_arg(args, unsigned int);
+    unsigned int num = va_arg(args, unsigned int);
 
-	return (print_unsigned_integer(num, buffer + *count));
+    return (print_unsigned_integer(num, buffer + *count));
 }
 
 /* Add similar helper functions for other conversion specifiers */
+
+typedef struct {
+    char specifier;
+    int (*handler)(va_list args, char *buffer, int *count);
+} ConversionHandler;
+
+/**
+ * get_conversion_handler - Retrieves the appropriate conversion handler
+ * for a given specifier
+ * @specifier: The conversion specifier
+ *
+ * Return: Pointer to the conversion handler function
+ */
+int (*get_conversion_handler(char specifier))(va_list, char *, int *)
+{
+    static ConversionHandler conversionHandlers[] = {
+        {'d', handle_integer},
+        {'i', handle_integer},
+        {'u', handle_unsigned_integer},
+        /* Add entries for other conversion specifiers */
+    };
+
+    int numHandlers = sizeof(conversionHandlers) / sizeof(conversionHandlers[0]);
+
+    for (int i = 0; i < numHandlers; i++)
+    {
+        if (conversionHandlers[i].specifier == specifier)
+        {
+            return conversionHandlers[i].handler;
+        }
+    }
+
+    return NULL;
+}
 
 /**
  * handler - Handles the format specifiers and builds the output string
@@ -44,61 +78,41 @@ int handle_unsigned_integer(va_list args, char *buffer, int *count)
  */
 int handler(const char *format, va_list args, char *buffer, int *count)
 {
-	int i, j;
-	char *str;
+    int i, j;
+    char *str;
 
-	i = 0;
-	j = 0;
+    i = 0;
+    j = 0;
 
-	while (format[i] != '\0')
-	{
-		if (format[i] == '%')
-		{
-			i++;
+    while (format[i] != '\0')
+    {
+        if (format[i] == '%')
+        {
+            i++;
 
-switch (format[i])
-{
-case 'd':
-case 'i':
-j += handle_integer(args, buffer, count);
-break;
-case 'u':
-j += handle_unsigned_integer(args, buffer, count);
-break;
-case 'o':
-/* Handle 'o' conversion */
-break;
-case 'x':
-/* Handle 'x' conversion */
-break;
-case 'X':
-/* Handle 'X' conversion */
-break;
-case 'c':
-/* Handle 'c' conversion */
-break;
-case 's':
-/* Handle 's' conversion */
-break;
-case 'p':
-/* Handle 'p' conversion */
-break;
-case '%':
-buffer[j++] = '%';
-break;
-default:
-buffer[j++] = '%';
-buffer[j++] = format[i];
-break;
+            int (*conversionHandler)(va_list, char *, int *);
+            conversionHandler = get_conversion_handler(format[i]);
+
+            if (conversionHandler != NULL)
+            {
+                j += conversionHandler(args, buffer, count);
+            }
+            else
+            {
+                buffer[j++] = '%';
+                buffer[j++] = format[i];
+            }
+        }
+        else
+        {
+            buffer[j++] = format[i];
+        }
+
+        i++;
+    }
+
+    *count = j;
+    buffer[j] = '\0';
+    return j;
 }
-}
-else
-{
-buffer[j++] = format[i];
-}
-i++;
-}
-*count = j;
-buffer[j] = '\0';
-return (j);
-}
+
