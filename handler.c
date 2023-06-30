@@ -12,7 +12,7 @@ int handle_integer(va_list args, char *buffer, int *count)
 {
     int num = va_arg(args, int);
 
-    return (print_integer(num, buffer + *count));
+    return (print_integer(num));
 }
 
 /**
@@ -27,7 +27,7 @@ int handle_unsigned_integer(va_list args, char *buffer, int *count)
 {
     unsigned int num = va_arg(args, unsigned int);
 
-    return (print_unsigned_integer(num, buffer + *count));
+    return (print_unsigned_integer(num);
 }
 
 /* Add similar helper functions for other conversion specifiers */
@@ -47,24 +47,26 @@ typedef struct {
 int (*get_conversion_handler(char specifier))(va_list, char *, int *);
 int (*get_conversion_handler(char specifier))(va_list, char *, int *)
 {
-    static ConversionHandler conversionHandlers[] = {
-        {'d', handle_integer},
-        {'i', handle_integer},
-        {'u', handle_unsigned_integer},
-        /* Add entries for other conversion specifiers */
-    };
 
-    int numHandlers = sizeof(conversionHandlers) / sizeof(conversionHandlers[0]);
+static ConversionHandler conversionHandlers[] = {
+	{'d', handle_integer},
+	{'i', handle_integer},
+	{'u', handle_unsigned_integer},
+/* Add entries for other conversion specifiers */
+	};
 
-    for (int i = 0; i < numHandlers; i++)
+	int numHandlers = sizeof(conversionHandlers) / sizeof(conversionHandlers[0]);
+	int i;
+
+    for (i = 0; i < numHandlers; i++)
     {
         if (conversionHandlers[i].specifier == specifier)
         {
-            return conversionHandlers[i].handler;
+            return (conversionHandlers[i].handler);
         }
     }
 
-    return NULL;
+    return (NULL);
 }
 
 /**
@@ -114,6 +116,6 @@ int handler(const char *format, va_list args, char *buffer, int *count)
 
     *count = j;
     buffer[j] = '\0';
-    return j;
+    return (j));
 }
 
