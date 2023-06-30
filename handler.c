@@ -11,7 +11,8 @@
 int handle_integer(va_list args, char *buffer, int *count)
 {
 	int num = va_arg(args, int);
-	return print_integer(num, buffer + *count);
+
+	return (print_integer(num, buffer + *count));
 }
 
 /**
@@ -25,7 +26,8 @@ int handle_integer(va_list args, char *buffer, int *count)
 int handle_unsigned_integer(va_list args, char *buffer, int *count)
 {
 	unsigned int num = va_arg(args, unsigned int);
-	return print_unsigned_integer(num, buffer + *count);
+	
+	return (print_unsigned_integer(num, buffer + *count));
 }
 
 /* Add similar helper functions for other conversion specifiers */
