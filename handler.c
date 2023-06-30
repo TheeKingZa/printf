@@ -42,6 +42,6 @@ sprintf(buffer, "%d", num);    /* Convert int to string */
 *count += strlen(buffer);      /* Update the count */
 }
 
-return *count; /* Return the updated count */
+return (*count); /* Return the updated count */
 }
 
