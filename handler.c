@@ -54,53 +54,49 @@ int handler(const char *format, va_list args, char *buffer, int *count)
 		{
 			i++;
 
-			switch (format[i])
-			{
-				case 'd':
-				case 'i':
-					j += handle_integer(args, buffer, count);
-					break;
-				case 'u':
-					j += handle_unsigned_integer(args, buffer, count);
-					break;
-				case 'o':
-					/* Handle 'o' conversion */
-					break;
-				case 'x':
-					/* Handle 'x' conversion */
-					break;
-				case 'X':
-					/* Handle 'X' conversion */
-					break;
-				case 'c':
-					/* Handle 'c' conversion */
-					break;
-				case 's':
-					/* Handle 's' conversion */
-					break;
-				case 'p':
-					/* Handle 'p' conversion */
-					break;
-				case '%':
-					buffer[j++] = '%';
-					break;
-				default:
-					buffer[j++] = '%';
-					buffer[j++] = format[i];
-					break;
-			}
-		}
-		else
-		{
-			buffer[j++] = format[i];
-		}
-
-		i++;
-	}
-
-	*count = j;
-	buffer[j] = '\0';
-
-	return j;
+switch (format[i])
+{
+case 'd':
+case 'i':
+j += handle_integer(args, buffer, count);
+break;
+case 'u':
+j += handle_unsigned_integer(args, buffer, count);
+break;
+case 'o':
+/* Handle 'o' conversion */
+break;
+case 'x':
+/* Handle 'x' conversion */
+break;
+case 'X':
+/* Handle 'X' conversion */
+break;
+case 'c':
+/* Handle 'c' conversion */
+break;
+case 's':
+/* Handle 's' conversion */
+break;
+case 'p':
+/* Handle 'p' conversion */
+break;
+case '%':
+buffer[j++] = '%';
+break;
+default:
+buffer[j++] = '%';
+buffer[j++] = format[i];
+break;
 }
-
+}
+else
+{
+buffer[j++] = format[i];
+}
+i++;
+}
+*count = j;
+buffer[j] = '\0';
+return (j);
+}
