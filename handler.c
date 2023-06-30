@@ -32,7 +32,8 @@ int handle_unsigned_integer(va_list args, char *buffer, int *count)
 
 /* Add similar helper functions for other conversion specifiers */
 
-struct ConversionHandler {
+struct ConversionHandler
+{
 	char specifier;
 	int (*handler)(va_list args, char *buffer, int *count);
 };
@@ -92,7 +93,8 @@ int handler(const char *format, va_list args, char *buffer, int *count)
 		{
 			i++;
 
-			int (*conversionHandler)(va_list, char *, int *);
+	int (*conversionHandler)(va_list, char *, int *);
+			
 			conversionHandler = get_conversion_handler(format[i]);
 
 			if (conversionHandler != NULL)
