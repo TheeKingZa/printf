@@ -19,42 +19,35 @@ int _printf(const char *format, ...)
 	char *buffer_ptr = buffer;
 
 	va_start(args, format);
-
-	while (*format)
+while (*format)
+{
+	if (*format == '%')
 	{
-		if (*format == '%')
-		{
-			format++;
-
-			/* Handle conversion specifier */
-			count += handler(format, args, buffer_ptr, &count);
-		}
-		else
-		{
-			/* Regular character, copy to buffer */
-			*buffer_ptr = *format;
-			buffer_ptr++;
-			count++;
-		}
-
 		format++;
-
-		/* Flush the buffer if it is full */
-		if (buffer_ptr == buffer + BUFFER_SIZE)
-		{
-			write(1, buffer, BUFFER_SIZE);
-			buffer_ptr = buffer;
-		}
+/* Handle conversion specifier */
+		count += handler(format, args, buffer_ptr, &count);
 	}
-
+	else
+	{
+/* Regular character, copy to buffer */
+		*buffer_ptr = *format;
+		buffer_ptr++;
+		count++;
+	}
+	format++;
+	/* Flush the buffer if it is full */
+	if (buffer_ptr == buffer + BUFFER_SIZE)
+	{
+	write(1, buffer, BUFFER_SIZE);
+	buffer_ptr = buffer;
+	}
+	}
 	/* Write any remaining characters in the buffer */
 	if (buffer_ptr != buffer)
 	{
-		write(1, buffer, buffer_ptr - buffer);
+	write(1, buffer, buffer_ptr - buffer);
 	}
-
 	va_end(args);
-
 	return (count);
 }
 
