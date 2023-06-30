@@ -11,25 +11,18 @@
 int _printf(const char *format, ...)
 {
 	va_list args;
-	char *buffer;
-	int count = 0;
+	char buffer[1024];
+	int count;
+
+	if (format == NULL)
+		return (-1);
 
 	va_start(args, format);
-	buffer = malloc(1024 * sizeof(char));
-
-	if (buffer == NULL)
-	{
-		va_end(args);
-		return (-1);
-	}
-
 	count = handler(format, args, buffer, &count);
-	write(1, buffer, count);
-
-	free(buffer);
 	va_end(args);
+
+	write(1, buffer, count);
 
 	return (count);
 }
-
 
