@@ -1,122 +1,48 @@
 #include "main.h"
+#include <stdio.h>  /* Include the <stdio.h> header for sprintf */
+#include <string.h> /* Include the <string.h> header for strlen */
 
 /**
- * handle_integer - Handles the 'd' and 'i' conversion specifiers
- * @args: The va_list containing the arguments
- * @buffer: The buffer to store the output string
- * @count: A pointer to the count of characters printed
+ * handler - Handle conversion specifier
+ *           based on length modifiers
+ * @format: Format specifier string
+ * @args: Arguments for the format specifier
+ * @buffer: Buffer to store the converted string
+ * @count: Pointer to the count of characters printed
  *
- * Return: The number of characters printed
- */
-int handle_integer(va_list args, char *buffer, int *count)
-{
-	int num = va_arg(args, int);
-
-	return (print_integer(num));
-}
-
-/**
- * handle_unsigned_integer - Handles the 'u' conversion specifier
- * @args: The va_list containing the arguments
- * @buffer: The buffer to store the output string
- * @count: A pointer to the count of characters printed
- *
- * Return: The number of characters printed
- */
-int handle_unsigned_integer(va_list args, char *buffer, int *count)
-{
-	unsigned int num = va_arg(args, unsigned int);
-
-	return (print_unsigned_integer(num));
-}
-
-/* Add similar helper functions for other conversion specifiers */
-
-struct ConversionHandler
-{
-	char specifier;
-	int (*handler)(va_list args, char *buffer, int *count);
-};
-
-/**
- * get_conversion_handler - Retrieves the appropriate conversion handler
- *                            for a given specifier
- * @specifier: The conversion specifier
- *
- * Return: Pointer to the conversion handler function
- */
-int (*get_conversion_handler(char specifier))(va_list, char *, int *);
-int (*get_conversion_handler(char specifier))(va_list, char *, int *)
-{
-	struct ConversionHandler conversionHandlers[] = {
-		{'d', handle_integer},
-		{'i', handle_integer},
-		{'u', handle_unsigned_integer},
-		/* Add entries for other conversion specifiers */
-	};
-
-	int numHandlers = sizeof(conversionHandlers) / sizeof(conversionHandlers[0]);
-	int i;
-
-	for (i = 0; i < numHandlers; i++)
-	{
-		if (conversionHandlers[i].specifier == specifier)
-		{
-			return (conversionHandlers[i].handler);
-		}
-	}
-
-	return (NULL);
-}
-
-/**
- * handler - Handles the format specifiers and builds the output string
- * @format: The format string
- * @args: The va_list containing the arguments
- * @buffer: The buffer to store the output string
- * @count: A pointer to the count of characters printed
- *
- * Return: The number of characters printed (excluding the null byte used to
- *         end output to strings).
+ * Return: The updated count of characters printed
  */
 int handler(const char *format, va_list args, char *buffer, int *count)
 {
-	int i, j;
-	char *str;
+/* Implementation code for handling each conversion specifier */
+/* ... */
 
-	i = 0;
-	j = 0;
+/* Convert num to string and store it in buffer */
+if (*format == 'd' || *format == 'i')
+{
+int num = va_arg(args, int);
+sprintf(buffer, "%d", num); /* Convert int to string */
+*count += strlen(buffer);   /* Update the count */
+}
+else if (*format == 'u' || *format == 'o' || *format == 'x' || *format == 'X')
+{
+unsigned int num = va_arg(args, unsigned int);
+sprintf(buffer, "%u", num); /* Convert unsigned int to string */
+*count += strlen(buffer);   /* Update the count */
+}
+else if (*format == 'l')
+{
+long num = va_arg(args, long);
+sprintf(buffer, "%ld", num); /* Convert long to string */
+*count += strlen(buffer);    /* Update the count */
+}
+else if (*format == 'h')
+{
+short num = va_arg(args, int); /* Assuming short is promoted to int */
+sprintf(buffer, "%d", num);    /* Convert int to string */
+*count += strlen(buffer);      /* Update the count */
+}
 
-	while (format[i] != '\0')
-	{
-		if (format[i] == '%')
-		{
-			i++;
-
-	int (*conversionHandler)(va_list, char *, int *);
-			
-			conversionHandler = get_conversion_handler(format[i]);
-
-			if (conversionHandler != NULL)
-			{
-				j += conversionHandler(args, buffer, count);
-			}
-			else
-			{
-				buffer[j++] = '%';
-				buffer[j++] = format[i];
-			}
-		}
-		else
-		{
-			buffer[j++] = format[i];
-		}
-
-		i++;
-	}
-
-	*count = j;
-	buffer[j] = '\0';
-	return (j);
+return (*count); /* Return the updated count */
 }
 
