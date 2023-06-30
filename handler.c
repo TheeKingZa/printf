@@ -44,6 +44,7 @@ typedef struct {
  *
  * Return: Pointer to the conversion handler function
  */
+int (*get_conversion_handler(char specifier))(va_list, char *, int *);
 int (*get_conversion_handler(char specifier))(va_list, char *, int *)
 {
     static ConversionHandler conversionHandlers[] = {
