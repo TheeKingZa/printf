@@ -1,48 +1,25 @@
 #include "main.h"
-#include <stdio.h>
-#include <stdarg.h>
 
 /**
- * print_binary - Prints a binary number
- * @types: Variable argument list
- * @buffer: Buffer to store the formatted output
- * @flags: Flags for formatting options
- * @width: Minimum field width
- * @precision: Precision for string and numeric conversions
- * @size: Length modifier size
+ * print_binary - Prints an unsigned integer in
+ *			binary format to the standard output
+ * @num: The unsigned integer to be printed
  *
- * Return: Number of characters printed
+ * Return: The number of characters printed.
  */
-int print_binary(va_list types, char buffer[], int flags,
-		int width, int precision, int size)
+int print_binary(unsigned int num)
 {
-	unsigned int num = va_arg(types, unsigned int);
-	int count = 0;
 
+int count = 0;
 
-/* Implementation logic for printing a binary number */
-
-	unsigned int temp = num;
-	int binaryDigits = 0;
-
-/* Count the number of binary digits */
-
-	while (temp > 0)
-	{
-
-	temp >>= 1;
-	binaryDigits++;
+if (num / 2)
+{
+	count += print_binary(num / 2);
 }
 
-/* Allocate enough space in the buffer for the binary representation */
-	for (int i = binaryDigits - 1; i >= 0; i--)
-	{
-	buffer[bufferIndex++] = ((num >> i) & 1) + '0';
-	}
-	buffer[bufferIndex] = '\0';
-/* Null-terminate the buffer */
-	count = snprintf(buffer, BUFFER_SIZE, "%.0s%s", buffer, buffer);
-
+_putchar('0' + num % 2);
+count++;
 
 return (count);
 }
+

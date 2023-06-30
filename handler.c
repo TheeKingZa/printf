@@ -1,58 +1,48 @@
 #include "main.h"
+#include <stdio.h>  /* Include the <stdio.h> header for sprintf */
+#include <string.h> /* Include the <string.h> header for strlen */
 
 /**
- * handle_print - Handles the format specifier and calls
- *			the appropriate function
- * @fmt: Format string
- * @i: Pointer to the current index of the format string
- * @list: Variable argument list
- * @buffer: Buffer to store the formatted output
- * @flags: Flags for formatting options
- * @width: Minimum field width
- * @precision: Precision for string and numeric conversions
- * @size: Length modifier size
+ * handler - Handle conversion specifier
+ *           based on length modifiers
+ * @format: Format specifier string
+ * @args: Arguments for the format specifier
+ * @buffer: Buffer to store the converted string
+ * @count: Pointer to the count of characters printed
  *
- * Return: Number of characters printed for
- *		the current format specifier
+ * Return: The updated count of characters printed
  */
-int handle_print(const char *fmt, int *i, va_list list,
-		char buffer[], int flags, int width, int precision, int size)
+int handler(const char *format, va_list args, char *buffer, int *count)
 {
-int j, count = 0;
+/* Implementation code for handling each conversion specifier */
+/* ... */
 
-fmt_t format_specifiers[] = {
-	{'d', print_int},
-	{'i', print_int},
-	{'b', print_binary},
-	{'u', print_unsigned},
-	{'o', print_octal},
-	{'x', print_hexadecimal},
-	{'X', print_hexa_upper},
-	{'S', print_non_printable},
-	{'p', print_pointer},
-	{'r', print_reverse},
-	{'R', print_rot13string},
-	{'\0', NULL}
-};
-
-	for (j = 0; format_specifiers[j].fmt != '\0'; j++)
-	{
-	if (format_specifiers[j].fmt == fmt[*i])
-	{
-
-	count = format_specifiers[j].fn(list, buffer, flags, width, precision, size);
-	break;
-
-	}
-	}
-	if (format_specifiers[j].fmt == '\0')
+/* Convert num to string and store it in buffer */
+if (*format == 'd' || *format == 'i')
 {
-	buffer[0] = '%';
-	buffer[1] = fmt[*i];
-	count = 2;
-	write(1, buffer, count);
+int num = va_arg(args, int);
+sprintf(buffer, "%d", num); /* Convert int to string */
+*count += strlen(buffer);   /* Update the count */
+}
+else if (*format == 'u' || *format == 'o' || *format == 'x' || *format == 'X')
+{
+unsigned int num = va_arg(args, unsigned int);
+sprintf(buffer, "%u", num); /* Convert unsigned int to string */
+*count += strlen(buffer);   /* Update the count */
+}
+else if (*format == 'l')
+{
+long num = va_arg(args, long);
+sprintf(buffer, "%ld", num); /* Convert long to string */
+*count += strlen(buffer);    /* Update the count */
+}
+else if (*format == 'h')
+{
+short num = va_arg(args, int); /* Assuming short is promoted to int */
+sprintf(buffer, "%d", num);    /* Convert int to string */
+*count += strlen(buffer);      /* Update the count */
 }
 
-	(*i)++;
-	return (count);
+return (*count); /* Return the updated count */
 }
+
