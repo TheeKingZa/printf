@@ -1,5 +1,12 @@
 #include <stdio.h>
 #include <stdarg.h>
+/**
+ * _printf - EntryPoint. 
+ *
+ * @va_list: The function begins by initializing a va_list named args to access the variable
+ *		arguments.
+ *		It also declares some variables to store characters and strings.
+ */
 
 int _printf(const char *format, ...)
 {
@@ -53,5 +60,5 @@ for (ptr = format; *ptr != '\0'; ptr++)
 
 va_end(args);
 
-return count;
+return (count);
 }
