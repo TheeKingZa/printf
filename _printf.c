@@ -1,64 +1,81 @@
-#include <stdio.h>
 #include <stdarg.h>
+#include <unistd.h>
+#include "main.h"
 /**
- * _printf - EntryPoint. 
+ * _printf - Custom printf function
+ * @format: Format string containing conversion specifiers
  *
- * @va_list: The function begins by initializing a va_list named args to access the variable
- *		arguments.
- *		It also declares some variables to store characters and strings.
+ * Return: The number of characters printed (excluding the null byte).
  */
-
 int _printf(const char *format, ...)
 {
-va_list args;
-int count = 0;
-const char *ptr;
-char ch;
-char *str;
-
-va_start(args, format);
-
-for (ptr = format; *ptr != '\0'; ptr++)
-{
-	if (*ptr == '%')
-	{
-	ptr++;
-
-	switch (*ptr)
-	{
-		case 'c':
-		ch = va_arg(args, int);
-		putchar(ch);
-		count++;
-		break;
-
-		case 's':
-		str = va_arg(args, char *);
-		fputs(str, stdout);
-		count += strlen(str);
-		break;
-		
-		case '%':
-		putchar('%');
-		count++;
-		break;
-
-		default:
-		putchar('%');
-		putchar(*ptr);
-		count += 2;
-		break;
-	}
-	}
-	else
-	{
-
-	putchar(*ptr);
-	count++;
-	}
-}
-
-va_end(args);
-
-return (count);
+    unsigned int i = 0, count = 0;
+    va_list args;
+    va_start(args, format);
+    if (!format)
+        return (-1);
+    while (format[i])
+    {
+        if (format[i] == '%')
+        {
+            if (format[i + 1] == 'c')
+            {
+                _putchar(va_arg(args, int));
+                count++;
+            }
+            else if (format[i + 1] == 's')
+            {
+                count += print_string(va_arg(args, char *));
+            }
+            else if (format[i + 1] == '%')
+            {
+                _putchar('%');
+                count++;
+            }
+            else if (format[i + 1] == 'i' || format[i + 1] == 'd')
+            {
+                count += print_int(va_arg(args, int));
+            }
+            else if (format[i + 1] == 'b')
+            {
+                count += print_binary(va_arg(args, int));
+            }
+            /*
+                       else if (format[i + 1] == 'u')
+            {
+                count += print_unsigned(va_arg(args, unsigned int));
+            }
+            else if (format[i + 1] == 'o')
+            {
+                count += print_octal(va_arg(args, unsigned int));
+            }
+            else if (format[i + 1] == 'x')
+            {
+                count += print_hex_low(va_arg(args, unsigned int));
+            }
+            else if (format[i + 1] == 'X')
+            {
+                count += print_hex_upp(va_arg(args, unsigned int));
+            }
+            else if (format[i + 1] == 'S')
+            {
+                count += print_non(va_arg(args, char *));
+            }
+            */
+            else
+            {
+                _putchar(format[i]);
+                count++;
+            }
+            i++;
+        }
+        else
+        {
+            _putchar(format[i]);
+            count++;
+        }
+        i++;
+    }
+    va_end(args);
+    return (count);
 }
