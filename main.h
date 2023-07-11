@@ -1,18 +1,18 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-/* includes */
 #include <stdio.h>
-#include <stdarg.h>
+#include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
+#include <stdarg.h>
 
-/* Protypes */
-int _putchar(char c);
+
+/* Prototypes */
+
 int _printf(const char *format, ...);
-
-
-
+int _putchar(char c);
+int print_integer(int num);
+int print_binary(unsigned int num);
 
 
 #endif
